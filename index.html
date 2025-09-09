@@ -173,5 +173,30 @@
     datePicker.value = today.toISOString().split("T")[0];
     fetchMatches(datePicker.value);
   </script>
+  <section id="articles" class="mt-12 bg-slate-800 p-6 rounded-2xl">
+  <h2 class="text-2xl font-bold mb-4">آخر الأخبار</h2>
+  <div id="articles-list" class="space-y-4"></div>
+  <a href="articles.html" class="text-emerald-400 hover:underline">عرض جميع المقالات</a>
+</section>
+
+<script>
+  function loadArticles() {
+    const articles = JSON.parse(localStorage.getItem("articles")) || [];
+    const latest = articles.slice(0, 5);
+
+    const container = document.getElementById("articles-list");
+    container.innerHTML = latest.map(a => `
+      <div class="p-4 bg-slate-700 rounded-lg">
+        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="mb-3 rounded-lg">` : ""}
+        <h3 class="text-lg font-semibold">
+          <a href="article.html?id=${a.id}" class="hover:underline">${a.title}</a>
+        </h3>
+        <p class="text-slate-400 text-sm">${a.content.slice(0,100)}...</p>
+      </div>
+    `).join('');
+  }
+  loadArticles();
+          </script>
 </body>
 </html>
+
