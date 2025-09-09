@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>المقالات - Shotnow</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f4f6; margin:0; }
+    header { background:#111827; color:white; padding:20px; text-align:center; }
+    .container { max-width:900px; margin:auto; padding:20px; }
+    .article-card {
+      background:#fff; margin-bottom:20px; padding:15px; border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1); transition:0.3s;
+    }
+    .article-card:hover { transform:translateY(-3px); }
+    .article-card img { max-width:100%; border-radius:10px; margin-bottom:10px; }
+    .article-card h2 { margin:10px 0; }
+    .article-card p { color:#555; }
+    a.read-more {
+      display:inline-block; margin-top:10px; color:#2563eb; text-decoration:none;
+      font-weight:bold;
+    }
+    a.read-more:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📰 مقالات كرة القدم - Shotnow</h1>
+  </header>
+
+  <div class="container" id="articles-list">
+    <h2>جاري تحميل المقالات...</h2>
+  </div>
+
+  <script>
+    function loadArticles() {
+      const articles = JSON.parse(localStorage.getItem("articles")) || [];
+      const list = document.getElementById("articles-list");
+
+      if (articles.length === 0) {
+        list.innerHTML = "<p>❌ لا توجد مقالات بعد.</p>";
+        return;
+      }
+
+      // ترتيب من الأحدث إلى الأقدم
+      const sorted = articles.sort((a,b) => b.id - a.id);
+
+      list.innerHTML = sorted.map(article => `
+        <div class="article-card">
+          ${article.image ? `<img src="${article.image}" alt="${article.title}">` : ""}
+          <h2>${article.title}</h2>
+          <p><small>${article.date}</small></p>
+          <p>${article.content.substring(0,150)}...</p>
+          <a class="read-more" href="article.html?id=${article.id}">اقرأ المزيد</a>
+        </div>
+      `).join("");
+    }
+
+    loadArticles();
+  </script>
+</body>
+</html>
