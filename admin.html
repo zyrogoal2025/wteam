@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إضافة مقال</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f4f6; padding:20px; }
+    form { background:#fff; padding:20px; border-radius:10px; max-width:600px; margin:auto; }
+    input, textarea { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
+    button { padding:10px 20px; background:#16a34a; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#15803d; }
+  </style>
+</head>
+<body>
+  <h1>📌 إضافة مقال جديد</h1>
+  <form id="articleForm">
+    <input type="text" id="title" placeholder="العنوان" required>
+    <textarea id="content" rows="6" placeholder="المحتوى" required></textarea>
+    <input type="text" id="image" placeholder="رابط الصورة (اختياري)">
+    <input type="date" id="date" required>
+    <button type="submit">➕ إضافة المقال</button>
+  </form>
+
+  <script>
+    document.getElementById("articleForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      let articles = JSON.parse(localStorage.getItem("articles")) || [];
+
+      const newArticle = {
+        id: Date.now(),
+        title: document.getElementById("title").value,
+        content: document.getElementById("content").value,
+        image: document.getElementById("image").value,
+        date: document.getElementById("date").value
+      };
+
+      articles.unshift(newArticle); // نخليه أول واحد
+      localStorage.setItem("articles", JSON.stringify(articles));
+
+      alert("✅ تم إضافة المقال بنجاح!");
+      document.getElementById("articleForm").reset();
+    });
+  </script>
+</body>
+</html>
